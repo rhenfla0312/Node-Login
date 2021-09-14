@@ -41,13 +41,37 @@ header {
 
 }
 
+
 #id {
     font-size: 15px;
     padding: 10px;
+    margin-top:10px;
 }
 #passwd {
     font-size: 15px;
     padding: 10px;
+    margin-top:10px;
+}
+
+#name {
+    font-size: 15px;
+    padding: 10px;
+    margin-top:10px;
+}
+
+#confirm-passwd {
+    font-size: 15px;
+    padding: 10px;
+    margin-top:10px;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+}
+
+p > a {
+    margin-left: 10px;
 }
 
 .login_langegu {
