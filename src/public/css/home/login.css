@@ -96,16 +96,19 @@ p > a {
     margin-left: 35%;
 }
 
-.button {
+#button {
     padding: 8px 12px;
 }
 
-button {
-    width: 470px;
+#button {
+    width: 90%;
     font-size: 15px;
     padding: 10px;
     background-color: #00c853;
     color: white;
+    margin: auto;
+    margin-top: 10px;
+    cursor: pointer;
     
 }
 

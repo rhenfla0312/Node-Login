@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/home/login.css">
-    <script src="/js/home/login.js" defer></script>
+    <script src="/js/home/register.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
     <title>NAVER 로그인</title>
 </head>
@@ -34,8 +34,10 @@
                     <input id="confirm-passwd" type="password" placeholder="비밀번호 확인" />
                     
                 </div>
+                <!-- form tag안의 button은 submit해주는 기능이 있다 -->
+                <!-- button이 form안에 있을 때는 button을 클릭하면 새로운 페이지가 reload된다 -->
                 <div class="button">
-                    <button><a href="loginpage.html">SIGN UP</a></button>
+                    <p id="button">SIGN UP</p>
                 </div>
                 <p class="messge">Already registered?<a href="/login">login</a></p>
             </form>
