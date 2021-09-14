@@ -4,13 +4,78 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet" href="/css/home/login.css">
     <script src="/js/home/login.js" defer></script>
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <title>NAVER 로그인</title>
 </head>
 <body>
-    <input id ="id" type="text" placeholder="아이디"><br>
-    <input id ="passwd" type="text" placeholder="비밀번호"><br>
-    <button>로그인</button>
+    <header>
+        <div class="login_logo">
+            <h1><a href="file:///Users/youngmin/Downloads/Desktop/naver/naver.html">NAVER</h1></a>
+        </div>
+
+        <div class="login_langegu">
+            <form action="">
+                <input id="langegu_id" type="text" name="st_department" list="depList" placeholder="한국어">
+                <datalist id="depList">
+                    <option value="영어"></option>
+                    <option value="힌디어"></option>
+                    <option value="중국어"></option>
+                </datalist>
+            </form>
+        </div>
+        <div class="login">
+            <form action="">
+                <div class="login_main">
+                    <input id="id" type="id" placeholder="아이디">
+                    <input id="passwd" type="password" placeholder="비밀번호">
+                </div>
+                <div class="login_main_one">
+                    <input id="checkbox" type="checkbox">
+                    <label for="checkbox">로그인 상태 유지</label>
+                    <span class="range_main">
+                        <label for="range">IP보안</label>
+                        <input id="range" type="range">
+                    </span>
+                </div>
+
+                <div class="button">
+                    <button><a href="loginpage.html">로그인</a></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="login_error">
+            <ul class="error_ul">
+                <li class="error_li"><a href="">아이디 찾기</a></li>
+                <li class="error_li"><a href="">비밀번호 찾기</a></li>
+                <li class="error_li"><a href="/register">회원가입</a></li>
+            </ul>
+        </div>
+
+        <div class="login_img">
+            <a href=""><img src="432.png"></a>
+        </div>
+
+
+        <div class="login_footer">
+            <ul class="login_footer_ul">
+                <li class="login_footer_li"><a href="">이용약관</a></li>
+                <li class="login_footer_li"><a href="">개인정보처리방침</a></li>
+                <li class="login_footer_li"><a href="">책임의 한계와 법적고지</a></li>
+                <li class="login_footer_li"><a href="">회원정보 고객센터</a></li>
+            </ul>
+        </div>
+
+        <div class="login_footer_last">
+            <ul class="login_footer_ul_second">
+                <li class="login_footer_li_second login_naver"><a href="">NAVER</a></li>
+                <li class="login_footer_li_second"><a href="">Copyright</a></li>
+                <li class="login_footer_li_second"><a href="">&copy; NAVER Corp</a></li>
+                <li class="login_footer_li_second"><a href="">AllRights Reserved</a></li>
+            </ul>
+        </div>
+    </header>
 </body>
 </html>
