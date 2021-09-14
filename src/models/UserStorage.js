@@ -20,6 +20,24 @@ class UserStorage {
         }, {});
         return newUsers;
     }
+
+    static getUserInfo(id) {
+        // 위에있는 users의 정보를 받아온다
+        const users = this.#users;
+        // idx값은 User.js에 넘겨둔 id이다, 설정한 id의 index를 구해서 넣는다
+        const idx = users.id.indexOf(id);
+        // users의 key값들만 리스트로 만든다 => [id, passwd, name]
+        const usersKeys = Object.keys(users);
+        // 리스트로 만든 값을 여기에 넣어서 배열애 reduce메서드를 넣어 돌린다, newUser라는 object에 key값이 순차적으로 들어간다
+        const userInfo = usersKeys.reduce((newUser, info) => { // 순차적이라 처음엔 id
+            // key값은 id값 = 값으로는 users의 key값의 idx값, idx - index에 해당하는 값들을 다 넣어준다
+            newUser[info] = users[info][idx];
+            return newUser;
+            // {} - 초기값 오브젝트
+        }, {});
+        // 이렇게해서 userInfo라는 값이 만들어진다
+        return userInfo;
+    }
 }
 
 module.exports = UserStorage;
