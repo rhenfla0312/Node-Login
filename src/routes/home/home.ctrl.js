@@ -34,10 +34,17 @@ const process = {
         // response로 받은 걸 클라이언트한테 json의 형태로 응답해준다
         //return res.json(response);
     },
+
+    register: (req, res) => {
+        const user = new User(req.body);
+        // register의 반환값을 받아서
+        const response = user.register();
+        // json메서드를 통해서 클라이언트로 응답해준다(서버 재가동 X)
+        return res.json(response);
+    }
 };
 
 module.exports = {
     output,
     process
 }
-

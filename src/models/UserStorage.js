@@ -3,10 +3,11 @@
 class UserStorage {
 // 서버 쪽 데이터
     // 이 데이터들은 데이터베이스를 이용할거다
+    // 주의 - 원래 로컬에 저장할땐 이렇게하지 않고 파일 안에다가 저장한다
     static #users = {
         id: ["yym1623", "youngmin", "hihi"],
         passwd: ["xldjf0312", "123456", "12345"],
-        nams: ["영민", "앙민", "잉민"],
+        name: ["영민", "앙민", "잉민"],
     };
 // 은닉화 하고 메서드로 전달해야 한다
     // UserStorage 데이터베이스에 접근해서 데이터를 반환해준다
@@ -37,6 +38,15 @@ class UserStorage {
         }, {});
         // 이렇게해서 userInfo라는 값이 만들어진다
         return userInfo;
+    }
+
+    // 클라이언트에서 데이터를 전달을 하면 users object안에 해당 데이터들이 저장이 되야 한다
+    static save(userInfo) {
+        const users = this.#users;
+        users.id.push(userInfo.id);
+        users.name.push(userInfo.name);
+        users.passwd.push(userInfo.passwd);
+        return { success: true };    
     }
 }
 
