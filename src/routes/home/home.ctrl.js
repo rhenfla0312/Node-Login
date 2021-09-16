@@ -9,7 +9,7 @@ const output = {
     home: (req, res) => {
         res.render("home/index");
     },
-    
+
     login: (req, res) => {
         res.render("home/login");
     },
@@ -35,10 +35,10 @@ const process = {
         //return res.json(response);
     },
 
-    register: (req, res) => {
+    register: async (req, res) => {
         const user = new User(req.body);
         // register의 반환값을 받아서
-        const response = user.register();
+        const response = await user.register();
         // json메서드를 통해서 클라이언트로 응답해준다(서버 재가동 X)
         return res.json(response);
     }
@@ -47,4 +47,4 @@ const process = {
 module.exports = {
     output,
     process
-}
+} 

@@ -17,7 +17,7 @@ function register() {
         name: name.value,
         passwd: passwd.value,
     };
- 
+
     // 이론 - 프론트를 먼저 개발할 순 있지만 일반적으론 백엔드의 api가 먼저 만들어진 상태에서 한다
     fetch("/register", {
         method: "POST",
@@ -41,4 +41,4 @@ function register() {
         }).catch((err) => {
             console.error("회원가입 중 에러 발생");
         });
-} 
+}  

@@ -9,8 +9,7 @@ class UserStorage {
     // 주의 - 원래 로컬에 저장할땐 이렇게하지 않고 파일 안에다가 저장한다
 
     // praiviet한 변수나 메서드는 최상단에 위치
-    static #getUserInfo(data, id) {
-        const users = JSON.parse(data);  
+    static #getUserInfo(data, id) { 
         // idx값은 User.js에 넘겨둔 id이다, 설정한 id의 index를 구해서 넣는다
         const idx = users.id.indexOf(id);
         // users의 key값들만 리스트로 만든다 => [id, passwd, name]
@@ -26,11 +25,10 @@ class UserStorage {
         return userInfo;
     }
 
-    
-// 은닉화 하고 메서드로 전달해야 한다
-    // UserStorage 데이터베이스에 접근해서 데이터를 반환해준다
-    static getUsers(...fields) {
-        // const users = this.#users;
+    static #getUsers(data, isAll, fields) {
+        const users = JSON.parse(data);
+        if (isAll) return users;
+
         const newUsers = fields.reduce((newUsers, field) => {
             if (users.hasOwnProperty(field)) {
                 newUsers[field] = users[field];
@@ -38,6 +36,16 @@ class UserStorage {
             return newUsers;
         }, {});
         return newUsers;
+    }
+
+// 은닉화 하고 메서드로 전달해야 한다
+    // UserStorage 데이터베이스에 접근해서 데이터를 반환해준다
+    static getUsers(isAll, ...fields) {
+        return fs.readFile("./src/databases/users.json")
+        .then((data) => {
+            return this.#getUsers(data, isAll, fields);
+        })
+        .catch(console.error);
     }
 
     static getUserInfo(id) {
@@ -54,13 +62,20 @@ class UserStorage {
 
 
     // 클라이언트에서 데이터를 전달을 하면 users object안에 해당 데이터들이 저장이 되야 한다
-    static save(userInfo) {
-        // const users = this.#users;
+    static async save(userInfo) {
+        // user.js를 읽어온 다음에 그 데이터에 추가하고 싶은 데이터를 추가한 뒤에 데이터를 넣어준다
+        const users = await this.getUsers(true); // 모든 값을 가지고 오겠다
+        if (users.id.includes(userInfo.id)) {
+            throw "이미 존재하는 아이디입니다.";
+        }
         users.id.push(userInfo.id);
         users.name.push(userInfo.name);
         users.passwd.push(userInfo.passwd);
-        return { success: true };    
+        // 데이터 추가
+        fs.writeFile("./src/databases/users.json", JSON.stringify(users));
+        return { success: true };
+
     }
 }
 
-module.exports = UserStorage;
+module.exports = UserStorage; 
