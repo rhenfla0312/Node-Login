@@ -1,80 +1,45 @@
 'use strict'
 
-// users.json(table)에 접근을 해서 해당 데이터를 읽어올려면 파일시스템을 불러와야 한다
-const fs = require("fs").promises;
+// db module 불러오기
+const db = require("../config/db");
 
 class UserStorage {
     // 서버 쪽 데이터
     // 이 데이터들은 데이터베이스를 이용할거다
     // 주의 - 원래 로컬에 저장할땐 이렇게하지 않고 파일 안에다가 저장한다
 
-    // praiviet한 변수나 메서드는 최상단에 위치
-    static #getUserInfo(data, id) { 
-        // idx값은 User.js에 넘겨둔 id이다, 설정한 id의 index를 구해서 넣는다
-        const idx = users.id.indexOf(id);
-        // users의 key값들만 리스트로 만든다 => [id, passwd, name]
-        const usersKeys = Object.keys(users);
-        // 리스트로 만든 값을 여기에 넣어서 배열애 reduce메서드를 넣어 돌린다, newUser라는 object에 key값이 순차적으로 들어간다
-        const userInfo = usersKeys.reduce((newUser, info) => { // 순차적이라 처음엔 id
-        // key값은 id값 = 값으로는 users의 key값의 idx값, idx - index에 해당하는 값들을 다 넣어준다
-            newUser[info] = users[info][idx];
-            return newUser;
-        // {} - 초기값 오브젝트
-        }, {});
-        // 이렇게해서 userInfo라는 값이 만들어진다
-        return userInfo;
-    }
-
-    static #getUsers(data, isAll, fields) {
-        const users = JSON.parse(data);
-        if (isAll) return users;
-
-        const newUsers = fields.reduce((newUsers, field) => {
-            if (users.hasOwnProperty(field)) {
-                newUsers[field] = users[field];
-            }
-            return newUsers;
-        }, {});
-        return newUsers;
-    }
-
-// 은닉화 하고 메서드로 전달해야 한다
-    // UserStorage 데이터베이스에 접근해서 데이터를 반환해준다
-    static getUsers(isAll, ...fields) {
-        return fs.readFile("./src/databases/users.json")
-        .then((data) => {
-            return this.#getUsers(data, isAll, fields);
-        })
-        .catch(console.error);
-    }
-
+// 로그인 페이지
+// 데이터 베이스와 연결된 로그인 기능 구현 -> 데이터베이스에 접근 후 user정보를 반환해준다
     static getUserInfo(id) {
-        // 위에있는 users의 정보를 받아온다
-        // const users = this.#users;
+        // 성공하면 resolve, 실패하면 reject 실행, primise 자체를 return
+        return new Promise((resolve, reject) =>  {
 
-        // read file로 읽어오면 16진수로 표기된다
-        return fs.readFile("./src/databases/users.json")
-            .then((data) => {
-                return this.#getUserInfo(data, id);
-            })
-            .catch(console.error);
+        
+            // 데이터베이스에 query를 날린 후 테이블 조회
+            // 로그인에 찍은 정보만 불러오기 위해 id = ?, [id]라는 변수를 만든다
+            // 이렇게하면 내가 입력한 값에 대한 해당 정보만 불러와진다
+            const query = "SELECT * FROM users WHERE id = ?;";
+            db.query(query, [id], (err, data) => {
+                if (err) reject(`${err}`); // 실패
+                resolve(data[0]); // 성공
+            });
+        });
     }
 
-
+// 회원가입 페이지
     // 클라이언트에서 데이터를 전달을 하면 users object안에 해당 데이터들이 저장이 되야 한다
+    // 프론트가 데이터를 입력하고 회원가입을 누르면 해당 데이터가 userInfo에 들어오게 설정
     static async save(userInfo) {
-        // user.js를 읽어온 다음에 그 데이터에 추가하고 싶은 데이터를 추가한 뒤에 데이터를 넣어준다
-        const users = await this.getUsers(true); // 모든 값을 가지고 오겠다
-        if (users.id.includes(userInfo.id)) {
-            throw "이미 존재하는 아이디입니다.";
-        }
-        users.id.push(userInfo.id);
-        users.name.push(userInfo.name);
-        users.passwd.push(userInfo.passwd);
-        // 데이터 추가
-        fs.writeFile("./src/databases/users.json", JSON.stringify(users));
-        return { success: true };
-
+        return new Promise((resolve, reject) =>  {
+            // 저장하는걸로 설정
+            const query = "INSERT INTO users(id, name, passwd) VALUES(?, ?, ?);";
+            // 1. query 던지고, query문 안에 ?에 대입 될 변수들을 넣어준다, 3. 에러와 데이터를 받는다(저장하는거기 때문에 따로 받을게 없다)
+            db.query(query, [userInfo.id, userInfo.name, userInfo.passwd], (err) => {
+                // 에러가 있으면 reject로 에러를 던지고, 에러가 없으면  resolve로 objet를 던진다
+                if (err) reject(`${err}`); // 실패, 문자열로 던진다
+                resolve({ success: true }); // 성공
+            });
+        });
     }
 }
 
