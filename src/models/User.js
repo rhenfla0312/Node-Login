@@ -26,7 +26,7 @@ class User {
 
             // 1. 내가 전달한 id가 UserStorage에 있는지
             // 1.1 id가 존재하고
-            if(id) {
+            if(id) { 
             //있으면 그 아이디와 클라이언트의 아이디가 같은지
             //1.2 Storage의 id와 클라이언트의 id가 같고, passwd가 같으면 로그인을 허용한다
                 if (id === client.id && passwd === client.passwd) {

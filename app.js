@@ -3,8 +3,12 @@
 // 모듈
 const express = require("express");
 const app = express();
-
 const bodyParser = require("body-parser");
+// 환경변수
+// dotenv - os 상관없이 동일하게 환경변수 등록 & 가져올 수 있다
+// config 메서드를 실행시키면 .env라는 모듈이 자동적으로 .env에 등록되어있는 변수들을 node.js에서 접근할 수 있도록 process.env등록을 한다
+const dotenv = require("dotenv");
+dotenv.config();
 
 // 라우팅
 const home = require("./src/routes/home");
