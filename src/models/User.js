@@ -2,8 +2,6 @@
 
 "use strict";
 
-const { response } = require("express");
-const { getUsers } = require("./UserStorage");
 const UserStorage = require("./UserStorage");
 
 
@@ -22,14 +20,14 @@ class User {
             // id값을 던지면 UserStorage에서 id값에 해당하는 데이터를 object로 전달하는 메서드를 생성할거다
             // 2.2 가져온 body.id값(클라이언트가 입력한 id값)을 UserStorage에 get 메서드로 전달한다, id의 해당하는 정보를 이 class가 반환한다
             // 받아올땐 id, passwd만 받아온다
-        const { id, passwd } = await UserStorage.getUserInfo(client.id);
+            const user = await UserStorage.getUserInfo(client.id);
 
             // 1. 내가 전달한 id가 UserStorage에 있는지
             // 1.1 id가 존재하고
-            if(id) { 
+            if(user) { 
             //있으면 그 아이디와 클라이언트의 아이디가 같은지
             //1.2 Storage의 id와 클라이언트의 id가 같고, passwd가 같으면 로그인을 허용한다
-                if (id === client.id && passwd === client.passwd) {
+                if (user.id === client.id && user.passwd === client.passwd) {
                     return { success: true };
                 }
             //1.3 다르면 비밀번호가 틀렸다라고 나온다

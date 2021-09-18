@@ -36,9 +36,11 @@ function register() {
                 location.href = "/login";
             } else {
                 // false면 response에 msg proparte를 alert으로 띄운다
+                if (res.err) return alert(res.err);
                 alert(res.msg);
             }
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.error("회원가입 중 에러 발생");
         });
 }  
